@@ -18,6 +18,7 @@ class BoardCell {
 		EMPTY: 0,
 		SHIP: 1,
 		HIT: 2,
+		HIT_SHIP: 3,
 	});
 
 	constructor() {
@@ -35,10 +36,16 @@ class BoardCell {
 	}
 
 	hit() {
-		if (this.getState() == BoardCell.STATES.HIT) return;
+		if (
+			this.getState() == BoardCell.STATES.HIT ||
+			this.getState() == BoardCell.STATES.HIT_SHIP
+		)
+			return;
 
-		if (this.ship) this.ship.hit();
-		this._state = BoardCell.STATES.HIT;
+		if (this.ship) {
+			this.ship.hit();
+			this._state = BoardCell.STATES.HIT_SHIP;
+		} else this._state = BoardCell.STATES.HIT;
 	}
 }
 
@@ -69,6 +76,10 @@ class Gameboard {
 		}
 
 		return true;
+	}
+
+	getCells() {
+		return this._board.slice();
 	}
 }
 
