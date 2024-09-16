@@ -25,13 +25,12 @@ body {
 	display: grid;
 	grid-template-columns: repeat(10, 1fr);
 	grid-template-rows: repeat(10, 1fr);
-	gap: 2px;
-	padding: 2px;
+	gap: 1px;
 
 	margin-top: 64px;
 
-	background-color: white;
-	border: 4px solid white;
+	background: linear-gradient(90deg, red, rgb(106, 109, 245));
+	padding: 1px;
 
 	aspect-ratio: 1;
 	width: max(400px, 40%);
