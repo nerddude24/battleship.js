@@ -2,7 +2,6 @@
 	"name": "battleship.js",
 	"version": "0.1.0",
 	"description": "Battleship game made using html, css and vanilla js.",
-	"module": "true",
 	"private": "true",
 	"scripts": {
 		"test": "jest"
