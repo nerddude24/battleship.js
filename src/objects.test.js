@@ -1,4 +1,4 @@
-const { Ship, BoardCell, Gameboard } = require("./app.js");
+const { Ship, BoardCell, Gameboard } = require("./objects.js");
 
 describe("Ship class (length == 3).", () => {
 	const ship = new Ship(3);
