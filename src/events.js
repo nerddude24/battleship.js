@@ -1,5 +1,10 @@
 const EventHandler = (() => {
-	_events = {};
+	const EVENTS = Object.freeze({
+		upPlrBrd: "updatePlayerBoard",
+		upBotBrd: "updateBotBoard",
+	});
+
+	let _events = {};
 
 	function sub(eventName, fn) {
 		_events[eventName] = _events[eventName] || [];
@@ -29,7 +34,8 @@ const EventHandler = (() => {
 		sub,
 		unsub,
 		emit,
+		EVENTS,
 	};
 })();
 
-module.exports = EventHandler;
+export default EventHandler;

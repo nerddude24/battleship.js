@@ -83,8 +83,4 @@ class Gameboard {
 	}
 }
 
-module.exports = {
-	Ship,
-	BoardCell,
-	Gameboard,
-};
+export { Ship, BoardCell, Gameboard };
