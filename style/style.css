@@ -12,7 +12,7 @@ body {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	gap: 10%;
+	gap: 5%;
 }
 
 @media (max-width: 1024px) {
@@ -28,6 +28,7 @@ body {
 	gap: 1px;
 
 	margin-top: 64px;
+	margin-bottom: 64px;
 
 	background: linear-gradient(90deg, red, rgb(106, 109, 245));
 	padding: 1px;
@@ -38,4 +39,9 @@ body {
 
 .cell {
 	background-color: black;
+
+	&:hover {
+		cursor: pointer;
+		border: 2px solid white;
+	}
 }
