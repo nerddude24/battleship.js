@@ -30,18 +30,50 @@ class BoardCell {
 		this._state = BoardCell.STATES.SHIP;
 	}
 
-	isHit() {
-		return this._state == BoardCell.STATES.HIT;
+	getState() {
+		return this._state;
 	}
 
 	hit() {
-		if (this.isHit()) return;
+		if (this.getState() == BoardCell.STATES.HIT) return;
 
 		if (this.ship) this.ship.hit();
 		this._state = BoardCell.STATES.HIT;
 	}
 }
 
+class Gameboard {
+	constructor() {
+		// 10x10 2d array filled with empty cells.
+		this._board = new Array(10).fill(
+			new Array(10).fill().map((_) => new BoardCell())
+		);
+	}
+
+	place(x, y, ship) {
+		this._board[y][x].fill(ship);
+	}
+
+	receiveAttack(x, y) {
+		this._board[y][x].hit();
+	}
+
+	isEverythingSunk() {
+		for (let i = 0; i < this._board.length; i++) {
+			for (let j = 0; j < this._board[i].length; j++) {
+				const cell = this._board[i][j];
+				if (cell.ship == null) continue;
+
+				if (!cell.ship.isSunk()) return false;
+			}
+		}
+
+		return true;
+	}
+}
+
 module.exports = {
 	Ship,
+	BoardCell,
+	Gameboard,
 };
