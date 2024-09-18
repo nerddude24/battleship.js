@@ -1,7 +1,7 @@
 import EventHandler from "./events.js";
 import { BoardCell } from "./objects.js";
 
-const DomHandler = (() => {
+(() => {
 	const playerBoard = document.getElementById("player-board");
 	const botBoard = document.getElementById("ai-board");
 
@@ -32,10 +32,10 @@ const DomHandler = (() => {
 		return htmlCell;
 	};
 
-	const render = (htmlBoard, board) => {
+	const render = (htmlBoard, cells) => {
 		htmlBoard.innerHTML = "";
 
-		board.getCells().forEach((row) =>
+		cells.forEach((row) =>
 			row.forEach((cell) => {
 				const htmlCell = createHtmlCell(cell, htmlBoard == playerBoard);
 
@@ -44,8 +44,8 @@ const DomHandler = (() => {
 		);
 	};
 
-	const renderPlayerBoard = (board) => render(playerBoard, board);
-	const renderBotBoard = (board) => render(botBoard, board);
+	const renderPlayerBoard = (cells) => render(playerBoard, cells);
+	const renderBotBoard = (cells) => render(botBoard, cells);
 
 	EventHandler.sub(EventHandler.EVENTS.upPlrBrd, renderPlayerBoard);
 	EventHandler.sub(EventHandler.EVENTS.upBotBrd, renderBotBoard);

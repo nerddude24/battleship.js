@@ -50,8 +50,8 @@ function play() {
 	player.board = buildBoard();
 	bot.board = buildBoard();
 
-	EventHandler.emit(EventHandler.EVENTS.upPlrBrd, player.board);
-	EventHandler.emit(EventHandler.EVENTS.upBotBrd, bot.board);
+	EventHandler.emit(EventHandler.EVENTS.upPlrBrd, player.board.getCells());
+	EventHandler.emit(EventHandler.EVENTS.upBotBrd, bot.board.getCells());
 
 	/* //while (!player.board.isEverythingSunk() && !bot.board.isEverythingSunk()) {}
 
