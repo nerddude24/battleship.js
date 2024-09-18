@@ -1,5 +1,5 @@
 import EventHandler from "./events.js";
-import { Gameboard, Ship } from "./objects.js";
+import { BoardCell, Gameboard, Ship } from "./objects.js";
 
 function buildBoard() {
 	const board = new Gameboard();
@@ -53,10 +53,14 @@ function play() {
 	EventHandler.emit(EventHandler.EVENTS.upPlrBrd, player.board.getCells());
 	EventHandler.emit(EventHandler.EVENTS.upBotBrd, bot.board.getCells());
 
-	/* //while (!player.board.isEverythingSunk() && !bot.board.isEverythingSunk()) {}
+	const attackCell = (cell) => {
+		if (!playerTurn) return;
 
-	if (player.board.isEverythingSunk()) alert("You lost!");
-	else alert("You won!"); */
+		cell.hit();
+		EventHandler.emit(EventHandler.EVENTS.upBotBrd, bot.board.getCells());
+	};
+
+	EventHandler.sub(EventHandler.EVENTS.clickedCell, attackCell);
 }
 
 play();

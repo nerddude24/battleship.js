@@ -5,13 +5,24 @@ import { BoardCell } from "./objects.js";
 	const playerBoard = document.getElementById("player-board");
 	const botBoard = document.getElementById("ai-board");
 
-	const createHtmlCell = (cell, isPlayer) => {
+	const createHtmlCell = (cell, isPlayerCell) => {
 		const htmlCell = document.createElement("div");
 		htmlCell.classList.add("cell");
 
 		switch (cell.getState()) {
+			case BoardCell.STATES.EMPTY:
+				if (!isPlayerCell)
+					htmlCell.addEventListener("click", () =>
+						EventHandler.emit(EventHandler.EVENTS.clickedCell, cell)
+					);
+				break;
+
 			case BoardCell.STATES.SHIP:
-				if (isPlayer) htmlCell.classList.add("cell-ship");
+				if (isPlayerCell) htmlCell.classList.add("cell-ship");
+				else
+					htmlCell.addEventListener("click", () =>
+						EventHandler.emit(EventHandler.EVENTS.clickedCell, cell)
+					);
 				break;
 
 			case BoardCell.STATES.HIT:

@@ -2,6 +2,7 @@ const EventHandler = (() => {
 	const EVENTS = Object.freeze({
 		upPlrBrd: "updatePlayerBoard",
 		upBotBrd: "updateBotBoard",
+		clickedCell: "clickedCell",
 	});
 
 	let _events = {};

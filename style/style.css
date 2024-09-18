@@ -52,8 +52,16 @@ body {
 
 .cell-ship {
 	background-color: white;
+	color: red;
 
 	&:hover {
 		border: 2px solid black;
 	}
+}
+
+.cell-hit {
+	display: flex;
+	align-items: stretch;
+	justify-content: stretch;
+	text-align: center;
 }
