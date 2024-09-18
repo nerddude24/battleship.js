@@ -37,17 +37,23 @@ class BoardCell {
 		return this._state;
 	}
 
-	hit() {
-		if (
+	isHit() {
+		return (
 			this.getState() == BoardCell.STATES.HIT ||
 			this.getState() == BoardCell.STATES.HIT_SHIP
-		)
-			return;
+		);
+	}
 
+	// returns true if hit a ship, false if it didn't.
+	hit() {
 		if (this.ship) {
 			this.ship.hit();
 			this._state = BoardCell.STATES.HIT_SHIP;
-		} else this._state = BoardCell.STATES.HIT;
+			return true;
+		} else {
+			this._state = BoardCell.STATES.HIT;
+			return false;
+		}
 	}
 }
 
@@ -113,7 +119,7 @@ class Gameboard {
 	}
 
 	receiveAttack(x, y) {
-		this._board[y][x].hit();
+		return this._board[y][x].hit();
 	}
 
 	isEverythingSunk() {
