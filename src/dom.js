@@ -15,7 +15,7 @@ const DomHandler = (() => {
 
 				switch (cell.getState()) {
 					case BoardCell.STATES.SHIP:
-						htmlCell.classList.add("cell-ship");
+						if (htmlBoard == playerBoard) htmlCell.classList.add("cell-ship");
 						break;
 
 					case BoardCell.STATES.HIT:

@@ -21,6 +21,10 @@ body {
 	}
 }
 
+#player-board {
+	border: 8px solid white;
+}
+
 .board {
 	display: grid;
 	grid-template-columns: repeat(10, 1fr);
@@ -43,5 +47,13 @@ body {
 	&:hover {
 		cursor: pointer;
 		border: 2px solid white;
+	}
+}
+
+.cell-ship {
+	background-color: white;
+
+	&:hover {
+		border: 2px solid black;
 	}
 }

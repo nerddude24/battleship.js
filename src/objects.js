@@ -1,6 +1,8 @@
 class Ship {
-	constructor(length) {
+	constructor(length, vertical = true) {
 		this._len = length;
+		this.vertical = vertical;
+
 		this._hits = 0;
 	}
 
@@ -52,13 +54,62 @@ class BoardCell {
 class Gameboard {
 	constructor() {
 		// 10x10 2d array filled with empty cells.
-		this._board = new Array(10).fill(
-			new Array(10).fill().map((_) => new BoardCell())
+		this._board = new Array(10)
+			.fill()
+			.map((_) => new Array(10).fill().map((_) => new BoardCell()));
+	}
+
+	_isEmptyCell(x, y) {
+		return (
+			x < 0 ||
+			x > 9 ||
+			y < 0 ||
+			y > 9 ||
+			this._board[y][x].getState() == BoardCell.STATES.EMPTY
 		);
 	}
 
+	_isPlaceableCell(x, y) {
+		// check if cell is out of bounds.
+		if (x < 0 || x > 9 || y < 0 || y > 9) return false;
+		if (!this._isEmptyCell(x, y)) return false;
+
+		// adjacent cells must be empty
+		const left = x == 0 || this._isEmptyCell(x - 1, y);
+		const right = x == 9 || this._isEmptyCell(x + 1, y);
+		const top = y == 0 || this._isEmptyCell(x, y - 1);
+		const bot = y == 9 || this._isEmptyCell(x, y + 1);
+		const topLeft = this._isEmptyCell(x - 1, y - 1);
+		const topRight = this._isEmptyCell(x + 1, y - 1);
+		const botLeft = this._isEmptyCell(x - 1, y + 1);
+		const botRight = this._isEmptyCell(x + 1, y + 1);
+
+		return (
+			top && bot && right && left && topLeft && topRight && botLeft && botRight
+		);
+	}
+
+	canPlace(x, y, ship) {
+		// check if entire ship can fit
+		if (ship.vertical) {
+			for (let lenY = y; lenY < y + ship._len; lenY++)
+				if (!this._isPlaceableCell(x, lenY)) return false;
+		} else {
+			for (let lenX = x; lenX < x + ship._len; lenX++)
+				if (!this._isPlaceableCell(lenX, y)) return false;
+		}
+
+		return true;
+	}
+
 	place(x, y, ship) {
-		this._board[y][x].fill(ship);
+		if (ship.vertical) {
+			for (let lenY = y; lenY < y + ship._len; lenY++)
+				this._board[lenY][x].fill(ship);
+		} else {
+			for (let lenX = x; lenX < x + ship._len; lenX++)
+				this._board[y][lenX].fill(ship);
+		}
 	}
 
 	receiveAttack(x, y) {
