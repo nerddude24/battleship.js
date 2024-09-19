@@ -1,5 +1,7 @@
 const EventHandler = (() => {
 	const EVENTS = Object.freeze({
+		buildPlrBrd: "buildPlayerBoard",
+		buildBotBrd: "buildBotBoard",
 		upPlrBrd: "updatePlayerBoard",
 		upBotBrd: "updateBotBoard",
 		clickedCell: "clickedCell",

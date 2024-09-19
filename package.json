@@ -1,6 +1,6 @@
 {
 	"name": "battleship.js",
-	"version": "0.1.0",
+	"version": "1.0.0",
 	"description": "Battleship game made using html, css and vanilla js.",
 	"private": "true",
 	"type": "module",

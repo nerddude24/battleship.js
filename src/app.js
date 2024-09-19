@@ -49,8 +49,8 @@ function play() {
 	player.board = buildBoard();
 	bot.board = buildBoard();
 
-	EventHandler.emit(EventHandler.EVENTS.upPlrBrd, player.board.getCells());
-	EventHandler.emit(EventHandler.EVENTS.upBotBrd, bot.board.getCells());
+	EventHandler.emit(EventHandler.EVENTS.buildPlrBrd, player.board.getCells());
+	EventHandler.emit(EventHandler.EVENTS.buildBotBrd, bot.board.getCells());
 
 	const checkWinner = () => {
 		if (player.board.isEverythingSunk()) {
@@ -65,41 +65,50 @@ function play() {
 	// the two args are for the attacks' direction.
 	const playBotTurn = (x, y, vert = null, offset = null) => {
 		if (gameOver) return;
-		setInterval(() => {
-			const hasHitAShip = player.board.receiveAttack(x, y);
-			EventHandler.emit(EventHandler.EVENTS.upPlrBrd, player.board.getCells());
+		//setInterval(() => {
+		const hasHitAShip = player.board.receiveAttack(x, y);
+		EventHandler.emit(EventHandler.EVENTS.upPlrBrd, {
+			cellState: player.board._board[y][x].getState(),
+			x,
+			y,
+		});
+		checkWinner();
 
-			if (!hasHitAShip) {
-				playerTurn = true;
-				checkWinner();
-				return;
-			}
+		if (!hasHitAShip) {
+			playerTurn = true;
+			return;
+		}
 
-			// else if hit a ship:
-			if (vert == null) {
-				// choose a random direction to start attacking
-				vert = Math.round(Math.random()) == 1;
-				offset = Math.round(Math.random()) == 1 ? 1 : -1;
-			}
+		// else if hit a ship:
+		if (vert == null) {
+			// choose a random direction to start attacking
+			vert = Math.round(Math.random()) == 1;
+			offset = Math.round(Math.random()) == 1 ? 1 : -1;
+		}
 
-			const nextX = !vert ? x + offset : x;
-			const nextY = vert ? y + offset : y;
+		let nextX = !vert ? x + offset : x;
+		let nextY = vert ? y + offset : y;
 
-			// if next coordinates are out of bounds, make new random vector.
-			if (nextX > 9 || nextX < 0 || nextY > 9 || nextY < 0)
-				[nextX, nextY] = randomXY();
+		// if next coordinates are out of bounds, make new random vector.
+		if (nextX > 9 || nextX < 0 || nextY > 9 || nextY < 0)
+			[nextX, nextY] = randomXY();
 
-			playBotTurn(nextX, nextY, vert, offset);
-		}, randomInterval(bot.intervalMin, bot.intervalMax));
+		playBotTurn(nextX, nextY, vert, offset);
+		//}, randomInterval(bot.intervalMin, bot.intervalMax));
 	};
 
-	const attackCell = (cell) => {
+	const attackCell = ({ cell, x, y }) => {
 		if (gameOver) return;
 		if (!playerTurn) return;
 		if (cell.isHit()) return;
 
 		const hasHitAShip = cell.hit();
-		EventHandler.emit(EventHandler.EVENTS.upBotBrd, bot.board.getCells());
+		EventHandler.emit(EventHandler.EVENTS.upBotBrd, {
+			cellState: cell.getState(),
+			x,
+			y,
+		});
+		checkWinner();
 
 		if (!hasHitAShip) {
 			playerTurn = false;
