@@ -6,6 +6,7 @@ body {
 	min-height: 100vh;
 }
 
+#label-container,
 #board-container {
 	width: 100%;
 
@@ -13,12 +14,6 @@ body {
 	align-items: center;
 	justify-content: center;
 	gap: 5%;
-}
-
-@media (max-width: 1024px) {
-	#board-container {
-		flex-direction: column;
-	}
 }
 
 #player-board {
@@ -43,6 +38,13 @@ body {
 
 .cell {
 	background-color: black;
+	aspect-ratio: 1;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	font-size: 40px;
 
 	&:hover {
 		cursor: pointer;
@@ -59,9 +61,12 @@ body {
 	}
 }
 
-.cell-hit {
-	display: flex;
-	align-items: stretch;
-	justify-content: stretch;
-	text-align: center;
+@media (max-width: 1024px) {
+	#board-container {
+		flex-direction: column;
+	}
+
+	.cell {
+		font-size: 32px;
+	}
 }
